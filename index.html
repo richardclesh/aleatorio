@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz sobre o Mundo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Quiz sobre o Mundo</h1>
+    <div class="question" id="question">Carregando pergunta...</div>
+    <ul class="options" id="options"></ul>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Qual é o maior país do mundo em território?",
+        options: ["China", "Canadá", "Brasil", "Rússia"],
+        answer: "Rússia"
+      },
+      {
+        question: "Qual é a capital da Austrália?",
+        options: ["Sydney", "Melbourne", "Perth", "Canberra"],
+        answer: "Canberra"
+      },
+      {
+        question: "Quantos continentes existem na Terra?",
+        options: ["5", "6", "7", "8"],
+        answer: "7"
+      },
+      {
+        question: "Onde ficam as pirâmides de Gizé?",
+        options: ["México", "Peru", "Egito", "Índia"],
+        answer: "Egito"
+      },
+      {
+        question: "Qual é o rio mais longo do mundo?",
+        options: ["Nilo", "Amazonas", "Yangtzé", "Mississippi"],
+        answer: "Amazonas"
+      },
+      {
+        question: "Qual é o idioma mais falado no mundo?",
+        options: ["Inglês", "Chinês mandarim", "Espanhol", "Hindi"],
+        answer: "Chinês mandarim"
+      },
+      {
+        question: "Qual é o menor país do mundo?",
+        options: ["Mônaco", "Malta", "Vaticano", "San Marino"],
+        answer: "Vaticano"
+      }
+    ];
+
+    let currentQuestion = 0;
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const resultEl = document.getElementById("result");
+
+    function loadQuestion() {
+      const q = quizData[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      resultEl.textContent = "";
+
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => checkAnswer(option);
+        const li = document.createElement("li");
+        li.appendChild(btn);
+        optionsEl.appendChild(li);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const correct = quizData[currentQuestion].answer;
+      if (selected === correct) {
+        resultEl.textContent = "✅ Correto!";
+        resultEl.style.color = "#0f0";
+      } else {
+        resultEl.textContent = `❌ Errado! Resposta certa: ${correct}`;
+        resultEl.style.color = "#f00";
+      }
+
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+          loadQuestion();
+        } else {
+          questionEl.textContent = "🌍 Quiz Finalizado!";
+          optionsEl.innerHTML = "";
+          resultEl.textContent = "";
+        }
+      }, 1500);
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
